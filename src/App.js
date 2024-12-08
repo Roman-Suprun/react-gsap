@@ -9,44 +9,49 @@ export default function ProductSlider() {
   const contentRef = useRef();
   const products = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
-  // useGSAP(() => {
-  //   if (contentRef.current) {
-  //     const createGsap = () => {
-  //       const sections = gsap.utils.toArray('.productSection');
+  useGSAP(() => {
+    if (contentRef.current) {
+      const createGsap = () => {
+        const sections = gsap.utils.toArray('.productSection');
 
-  //       return gsap.to(sections, {
-  //         x: -(
-  //           sections[0]?.offsetWidth *
-  //           (sections.length -
-  //             Math.round(window.innerWidth / sections[0]?.offsetWidth))
-  //         ),
-  //         ease: 'none',
-  //         scrollTrigger: {
-  //           trigger: contentRef.current,
-  //           start: 'bottom bottom',
-  //           invalidateOnRefresh: true,
-  //           pin: true,
-  //           markers: true,
-  //           scrub: true,
-  //           end: () => '+=' + contentRef?.current?.offsetWidth,
-  //         },
-  //       });
-  //     };
+        return gsap.to(sections, {
+          x: -(
+            sections[0]?.offsetWidth *
+            (sections.length -
+              Math.round(window.innerWidth / sections[0]?.offsetWidth))
+          ),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: 'bottom bottom',
+            invalidateOnRefresh: true,
+            pin: true,
+            markers: true,
+            scrub: true,
+            end: () => '+=' + contentRef?.current?.offsetWidth,
+          },
+        });
+      };
 
-  //     const gsapEntity = createGsap();
+      const gsapEntity = createGsap();
 
-  //     return () => {
-  //       gsapEntity.kill();
-  //     };
-  //   }
-  // }, []);
+      return () => {
+        gsapEntity.kill();
+      };
+    }
+  }, []);
 
+  window.addEventListener("resize", () => {
+    ScrollTrigger.refresh()
+  });
+  
   return (
     <>
       <div
         ref={contentRef}
-        className="w-max border-t-[1px] border-t-[#262626] flex flex-nowrap"
+        className="w-max border-t-[1px] border-t-[#262626] flex"
       >
+        
         {products.map((productItem) => {
           const { id } = productItem || {};
 
@@ -59,6 +64,7 @@ export default function ProductSlider() {
             </div>
           );
         })}
+        
       </div>
     </>
   );
